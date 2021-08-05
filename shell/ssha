@@ -5,10 +5,10 @@
 
 case "$1" in
 	besh)
-		sshpass -f /home/witt/bak/shell/shpw ssh tdf@besh "$2"
+		sshpass -f /home/witt/bak/shell/shpw ssh tdf@besh $2
 		;;
 	besh2)
-		sshpass -f /home/witt/bak/shell/shpw ssh kingbase@besh "$2"
+		sshpass -f /home/witt/bak/shell/shpw ssh kingbase@besh $2
                 ;;
         besh3)
                 sshpass -f /home/witt/bak/shell/shpw2 ssh root@besh $2
