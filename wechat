@@ -1,0 +1,21 @@
+#!/bin/bash
+# start or stop wecaht container
+case "$1" in 
+	start)
+		xhost +
+		sudo docker start wechat
+		;;
+	restart)
+                xhost +
+                sudo docker restart wechat
+                ;;
+	stop)
+		sudo docker stop wechat
+		;;
+        status)
+                sudo docker ps
+                ;;
+	*)
+		echo "Usage: wechat {start|stop|restart|status}"
+		;;
+esac

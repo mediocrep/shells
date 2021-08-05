@@ -1,0 +1,9 @@
+#!/bin/bash
+startidea
+echo idea started
+startpostman
+echo postman started
+wechat start
+echo wechat started
+
+

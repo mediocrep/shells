@@ -1,0 +1,49 @@
+#!/bin/bash
+# start vm automatically
+case "$1" in 
+	node1)
+		vmplayer /develop/vm/node1/centos7.vmx 1>/dev/null 2>&1 &
+		;;
+	node2)
+                vmplayer /develop/vm/node2/centos7.vmx 1>/dev/null 2>&1 &
+                ;;
+	node3)
+		vmplayer /develop/vm/node3/centos7.vmx 1>/dev/null 2>&1 &
+		;;
+        xp)
+                vmplayer /develop/vm/xp/WinXP.vmx 1>/dev/null 2>&1 &
+                ;;
+	bd)
+		vmplayer /develop/vm/node1/centos7.vmx 1>/dev/null 2>&1 &
+		vmplayer /develop/vm/node2/centos7.vmx 1>/dev/null 2>&1 &
+		vmplayer /develop/vm/node3/centos7.vmx 1>/dev/null 2>&1 &
+		;;
+	-h)
+		echo version 1.0
+		echo "Usage: vm {node1 | node2 | node3 | bd | xp}"
+		echo "Additional options:"
+		echo "    -h"
+		echo "    -v"
+		;;
+	-v)
+		echo vm version: 1.0
+		;;
+	*)
+		echo "parameter error! Usage: vm {node1 | node2 | node3 | bd | xp}"
+		;;
+esac
+
+# example below: 
+# vmware-networks version: 0.1
+# Usage: vmware-networks [--verbose | -v] <option>
+# Use exactly one of these commands:
+  # --postinstall <component-name>,<old-version>,<new-version>
+  # --migrate-network-settings <location of settings file>
+  # --start
+  # --stop
+  # --status
+
+# Additional options:
+  # --help | -h
+  # --version
+

@@ -1,0 +1,48 @@
+#!/bin/bash
+# operate kingdee aas container
+case "$1" in 
+	start)
+		nohup /develop/AAS-V9.0/domains/sca/bin/startapusic > /develop/AAS-V9.0/domains/sca/logs/scafe`date +'%Y%m%d%H%M%S'`.log 2>&1 &
+		echo Application started successfully
+		;;
+	restart)
+		/develop/AAS-V9.0/domains/sca/bin/stopapusic
+                # systemctl stop sca.asusic
+                sleep 2
+
+                PID=$(ps -ef | grep java | grep AAS-V9.0 | grep -v grep | awk '{ print $2 }')
+                if [ -z "$PID" ]
+                then
+                  echo Application is already stopped
+                else
+                  echo kill $PID
+                  kill -9 $PID
+                  echo Application stopped successfully
+                fi
+
+		nohup /develop/AAS-V9.0/domains/sca/bin/startapusic > /develop/AAS-V9.0/domains/sca/logs/scafe`date +'%Y%m%d%H%M%S'`.log 2>&1 &
+		echo Application started successfully
+                ;;
+	stop)
+		/develop/AAS-V9.0/domains/sca/bin/stopapusic
+		# systemctl stop sca.asusic
+		sleep 2
+
+		PID=$(ps -ef | grep java | grep AAS-V9.0 | grep -v grep | awk '{ print $2 }')
+		if [ -z "$PID" ]
+		then
+		  echo Application is already stopped
+		else
+		  echo kill $PID
+		  kill -9 $PID
+		  echo Application stopped successfully
+		fi
+
+		;;
+        status)
+                ps aux | grep apusic
+                ;;
+	*)
+		echo "Usage: aas {start|stop|restart|status}"
+		;;
+esac

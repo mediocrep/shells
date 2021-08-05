@@ -1,0 +1,15 @@
+#!/bin/bash
+# 查询触控板的pid，因为该pid可能会变化，所以每次都动态获取
+id=$(xinput | grep TouchPad | awk '{print $7}')
+
+case "$1" in 
+	on)
+		xinput --enable ${id#*=}
+		;;
+	off)
+		xinput --disable ${id#*=}
+		;;
+	*)
+		echo "Usage: touchpad {on|off}"
+		;;
+esac

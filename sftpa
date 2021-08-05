@@ -1,0 +1,22 @@
+#!/bin/bash
+# automatically remote login
+# 172.16.112.130 besh
+# 172.16.9.72 fesh
+
+case "$1" in
+	besh)
+		sshpass -f /home/witt/bak/shell/shpw sftp tdf@besh
+		;;
+	besh2)
+		sshpass -f /home/witt/bak/shell/shpw sftp kingbase@besh
+                ;;
+        besh3)
+                sshpass -f /home/witt/bak/shell/shpw2 sftp root@besh
+                ;;
+	fesh)
+		sshpass -f /home/witt/bak/shell/shpw sftp root@fesh
+		;;
+	*)
+		echo "Usage: sftpa {besh|besh2|besh3|fesh}"
+		;;
+esac

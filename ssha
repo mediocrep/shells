@@ -1,0 +1,43 @@
+#!/bin/bash
+# automatically remote login
+# 172.16.112.130 besh
+# 172.16.9.72 fesh
+
+
+echo "\$1 = " $1
+cmd=""
+
+echo "\$1 = " $1
+
+case "$1" in
+	besh)
+		cmd=sshpass -f /home/witt/bak/shell/shpw ssh tdf@besh
+		;;
+	besh2)
+		cmd=sshpass -f /home/witt/bak/shell/shpw ssh kingbase@besh
+                ;;
+        besh3)
+                cmd=sshpass -f /home/witt/bak/shell/shpw2 ssh root@besh
+                ;;
+	fesh)
+		cmd=sshpass -f /home/witt/bak/shell/shpw ssh root@fesh
+		;;
+        node1)
+                cmd="sshpass -f /home/witt/bak/shell/shpw3 ssh root@node1"
+                ;;
+        node2)
+                cmd=sshpass -f /home/witt/bak/shell/shpw3 ssh root@node2
+                ;;
+        node3)
+                cmd=sshpass -f /home/witt/bak/shell/shpw3 ssh root@node3
+                ;;
+
+	*)
+		echo "Usage: ssha {besh | besh2 | besh3 | fesh | node1 | node2 | node3} [command]"
+		exit 1
+		;;
+esac
+
+echo "\$cmd ----- \$2 = " $cmd  "-----"  $2
+
+$cmd $2
