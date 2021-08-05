@@ -1,0 +1,34 @@
+#!/bin/bash
+# automatically remote login, also, it can be automatically execute command remotely
+# 172.16.112.130 besh
+# 172.16.9.72 fesh
+
+case "$1" in
+	besh)
+		sshpass -f /home/witt/bak/shell/shpw ssh tdf@besh "$2"
+		;;
+	besh2)
+		sshpass -f /home/witt/bak/shell/shpw ssh kingbase@besh "$2"
+                ;;
+        besh3)
+                sshpass -f /home/witt/bak/shell/shpw2 ssh root@besh $2
+                ;;
+	fesh)
+		sshpass -f /home/witt/bak/shell/shpw ssh root@fesh $2
+		;;
+        node1)
+                sshpass -f /home/witt/bak/shell/shpw3 ssh root@node1 $2
+                ;;
+        node2)
+                sshpass -f /home/witt/bak/shell/shpw3 ssh root@node2 $2
+                ;;
+        node3)
+                sshpass -f /home/witt/bak/shell/shpw3 ssh root@node3 $2
+                ;;
+
+	*)
+		echo "Usage: ssha {besh | besh2 | besh3 | fesh | node1 | node2 | node3} [\"command\"]"
+		exit 1
+		;;
+esac
+
