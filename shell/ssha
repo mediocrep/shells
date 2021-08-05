@@ -25,9 +25,13 @@ case "$1" in
         node3)
                 sshpass -f /home/witt/bak/shell/shpw3 ssh root@node3 $2
                 ;;
-
+        bd)
+                sshpass -f /home/witt/bak/shell/shpw3 ssh root@node1 $2
+                sshpass -f /home/witt/bak/shell/shpw3 ssh root@node2 $2
+                sshpass -f /home/witt/bak/shell/shpw3 ssh root@node3 $2
+                ;;
 	*)
-		echo "Usage: ssha {besh | besh2 | besh3 | fesh | node1 | node2 | node3} [\"command\"]"
+		echo "Usage: ssha {besh | besh2 | besh3 | fesh | node1 | node2 | node3 | bd} [\"command\"]"
 		exit 1
 		;;
 esac
