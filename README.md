@@ -1,7 +1,7 @@
 # shells
 
 #### 介绍
-All kinds of shell utils I need in my study and work. 
+All kinds of shell utils I use in my study and work. 
 Maybe you also need these utils. : )
 
 #### 软件架构
