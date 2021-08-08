@@ -1,7 +1,7 @@
 # shells
 
 #### Description
-All kinds of shell utils I need in my study and work. 
+All kinds of shell utils I use in my study and work. 
 Maybe you also need these utils. : )
 
 #### Software Architecture
