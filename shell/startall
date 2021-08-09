@@ -1,14 +1,14 @@
 #!/bin/bash
 startidea
-echo idea started
+echo 1. idea      started
 
 startpostman
-echo postman started
+echo 2. postman   started
 
 wechat start
-echo wechat started
+echo 3. wechat    started
 
 systemctl start kingbase8d
 "/home/witt/kdb/Scripts/javatools.sh" "/home/witt/kdb/ManagerTools/manager" 1>/dev/null 2>&1 &
-echo kingbase started
+echo 4. kingbase  started
 
