@@ -1,29 +1,44 @@
 #!/bin/bash
 # start vm automatically
 
+line=`systemctl status vmware | grep "active (running)"`
+
+
 case "$1" in 
 	node1)
-		systemctl start vmware
+		if [ ! "$line" ]; then
+			systemctl start vmware
+		fi
 		vmplayer /develop/vm/node1/centos7.vmx 1>/dev/null 2>&1 &
 		;;
 	node2)
-		systemctl start vmware
+		if [ ! "$line" ]; then
+                        systemctl start vmware
+                fi
                 vmplayer /develop/vm/node2/centos7.vmx 1>/dev/null 2>&1 &
                 ;;
 	node3)
-		systemctl start vmware
+		if [ ! "$line" ]; then
+                        systemctl start vmware
+                fi
 		vmplayer /develop/vm/node3/centos7.vmx 1>/dev/null 2>&1 &
 		;;
 	halo)
-                systemctl start vmware
+		if [ ! "$line" ]; then
+                        systemctl start vmware
+                fi
                 vmplayer /develop/vm/halo/centos7.vmx 1>/dev/null 2>&1 &
                 ;;
         xp)
-		systemctl start vmware
+		if [ ! "$line" ]; then
+                        systemctl start vmware
+                fi
                 vmplayer /develop/vm/xp/WinXP.vmx 1>/dev/null 2>&1 &
                 ;;
 	bd)
-		systemctl start vmware
+		if [ ! "$line" ]; then
+                        systemctl start vmware
+                fi
 		vmplayer /develop/vm/node1/centos7.vmx 1>/dev/null 2>&1 &
 		vmplayer /develop/vm/node2/centos7.vmx 1>/dev/null 2>&1 &
 		vmplayer /develop/vm/node3/centos7.vmx 1>/dev/null 2>&1 &
