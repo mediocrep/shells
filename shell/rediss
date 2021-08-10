@@ -1,0 +1,30 @@
+#!/bin/bash
+# operate redis
+
+# h用于拼接redis操作的主机名，暂时先写死为本机127.0.0.1
+# set h=""
+# if [ ! -n "$2" ]; then 
+#	h="-h $2"
+# fi
+
+case "$1" in
+	start)
+		/develop/redis-5.0.13/bin/redis-server /develop/redis-5.0.13/redis.conf
+		echo redis successfully started!
+		;;
+	restart)
+		/develop/redis-5.0.13/bin/redis-cli -h 127.0.0.1 shutdown
+		/develop/redis-5.0.13/bin/redis-server /develop/redis-5.0.13/redis.conf
+		echo redis successfully restarted!
+                ;;
+	stop)
+		/develop/redis-5.0.13/bin/redis-cli -h 127.0.0.1 shutdown
+		echo redis successfully stoped!
+		;;
+        status)
+		ps aux | grep redis | grep -v grep | grep -v status
+                ;;
+	*)
+		echo "Usage: rediss { start | stop | restart | status }"
+		;;
+esac
