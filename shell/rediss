@@ -7,6 +7,10 @@
 #	h="-h $2"
 # fi
 
+# 下次把打开redis客户端的功能整合进去 redis-cli -h node2
+
+
+
 case "$1" in
 	start)
 		/develop/redis-5.0.13/bin/redis-server /develop/redis-5.0.13/redis.conf
