@@ -5,7 +5,7 @@ line=`systemctl status vmware | grep "active (running)"`
 
 echo $line
 
-if [ ! "$line" ]; then
+if [ "$line" ]; then
 	echo line is not null, its value === $line
 else
 	echo line is null

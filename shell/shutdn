@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# shutdown all the 
+
+host1=$(cat /etc/hostname)
+host2=""
+host3=""
+
+case "$host1" in 
+  node1.hadoop.com)
+    host1=node1
+    host2=node2
+    host3=node3
+    ;;
+  node2.hadoop.com)
+    host1=node2
+    host2=node1
+    host3=node3
+    ;;
+  node3.hadoop.com)
+    host1=node3
+    host2=node1
+    host3=node2
+    ;;
+  *)
+    host1=node1
+    host2=node2
+    host3=node3
+    ;;
+esac
+
+/usr/local/bin/ssha $host1 "poweroff"
+/usr/local/bin/ssha $host2 "poweroff"
+/usr/local/bin/ssha $host3 "poweroff"
+# ssh $host2 echo "$host2\'s really hostname is `cat /etc/hostname`"  # test
+# ssh $host3 echo "$host3\'s really hostname is $(cat /etc/hostname)"  # test
+
