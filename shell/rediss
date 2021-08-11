@@ -3,32 +3,79 @@
 
 # h用于拼接redis操作的主机名，暂时先写死为本机127.0.0.1
 # set h=""
-# if [ ! -n "$2" ]; then 
-#	h="-h $2"
+# if [ ! "$2" ]; then 
+#       h="-h $2"
 # fi
 
-# 下次把打开redis客户端的功能整合进去 redis-cli -h node2
 
+REDIS_HOME=/develop/redis-5.0.13
 
+# 设置redis启动模式
+
+local=$(cat /etc/hostname)
+host1=node1
+host2=node2
+host3=node3
+
+case "$local" in
+#  node1.hadoop.com)
+#    host1=node1
+#    host2=node2
+#    host3=node3
+#    ;;
+  node2.hadoop.com)
+    host1=node2
+    host2=node1
+    host3=node3
+    ;;
+  node3.hadoop.com)
+    host1=node3
+    host2=node1
+    host3=node2
+    ;;
+esac
+
+echo "host1=$host1, host2=$host2, host3=$host3"
+
+cmd_start="$REDIS_HOME/bin/redis-server $REDIS_HOME/redis.conf; ssh $host2 $REDIS_HOME/bin/redis-server $REDIS_HOME/redis.conf; ssh $host3 $REDIS_HOME/bin/redis-server $REDIS_HOME/redis.conf"
+cmd_stop="$REDIS_HOME/bin/redis-cli -h $host1 -p 6379 shutdown; ssh $host2 $REDIS_HOME/bin/redis-cli -h $host2 -p 6379 shutdown; ssh $host3 $REDIS_HOME/bin/redis-cli -h $host3 -p 6379 shutdown"
+
+if [ -n "$2" ]; then
+        case "$2" in
+                sentinel)
+                        cmd_start="$REDIS_HOME/bin/redis-sentinel $REDIS_HOME/sentinel.conf; ssh $host2 $REDIS_HOME/bin/redis-sentinel $REDIS_HOME/sentinel.conf; ssh $host3 $REDIS_HOME/bin/redis-sentinel $REDIS_HOME/sentinel.conf"
+                        cmd_stop="$REDIS_HOME/bin/redis-cli -h $host1 -p 6379 shutdown; ssh $host2 $REDIS_HOME/bin/redis-cli -h $host2 -p 6379 shutdown; ssh $host3 $REDIS_HOME/bin/redis-cli -h $host3 -p 6379 shutdown;$REDIS_HOME/bin/redis-cli -h $host1 -p 26379 shutdown; ssh $host2 $REDIS_HOME/bin/redis-cli -h $host2 -p 26379 shutdown; ssh $host3 $REDIS_HOME/bin/redis-cli -h $host3 -p 26379 shutdown"
+                        ;;
+                cluster)
+                        cmd_start="$REDIS_HOME/bin/redis-server $REDIS_HOME/7001/redis_7001.conf;$REDIS_HOME/bin/redis-server $REDIS_HOME/7002/redis_7002.conf; ssh $host2 $REDIS_HOME/bin/redis-server $REDIS_HOME/7001/redis_7001.conf; ssh $host2 $REDIS_HOME/bin/redis-server $REDIS_HOME/7002/redis_7002.conf; ssh $host3 $REDIS_HOME/bin/redis-server $REDIS_HOME/7001/redis_7001.conf; ssh $host3 $REDIS_HOME/bin/redis-server $REDIS_HOME/7002/redis_7002.conf"
+                        cmd_stop="$REDIS_HOME/bin/redis-cli -h $host1 -p 7001 shutdown; ssh $host2 $REDIS_HOME/bin/redis-cli -h $host2 -p 7001 shutdown; ssh $host3 $REDIS_HOME/bin/redis-cli -h $host3 -p 7001 shutdown;$REDIS_HOME/bin/redis-cli -h $host1 -p 7002 shutdown; ssh $host2 $REDIS_HOME/bin/redis-cli -h $host2 -p 7002 shutdown; ssh $host3 $REDIS_HOME/bin/redis-cli -h $host3 -p 7002 shutdown"
+                        ;;
+                *)
+                        echo "Parameter Error! parameter 2 must be one of { \"\" | sentinel | cluster }"
+                        exit 1
+                        ;;
+        esac
+fi
 
 case "$1" in
-	start)
-		/develop/redis-5.0.13/bin/redis-server /develop/redis-5.0.13/redis.conf
-		echo redis successfully started!
-		;;
-	restart)
-		/develop/redis-5.0.13/bin/redis-cli -h 127.0.0.1 shutdown
-		/develop/redis-5.0.13/bin/redis-server /develop/redis-5.0.13/redis.conf
-		echo redis successfully restarted!
+        start)
+                $(eval echo $cmd_start)
+                echo redis successfully started!
                 ;;
-	stop)
-		/develop/redis-5.0.13/bin/redis-cli -h 127.0.0.1 shutdown
-		echo redis successfully stoped!
-		;;
+        restart)
+                $(eval echo $cmd_stop)
+                $(eval echo $cmd_start)
+                echo redis successfully restarted!
+                ;;
+        stop)
+                $(eval echo $cmd_stop)
+                echo redis successfully stoped!
+                ;;
         status)
-		ps aux | grep redis | grep -v grep | grep -v status
+                ps aux | grep redis | grep -v grep | grep -v status
                 ;;
-	*)
-		echo "Usage: rediss { start | stop | restart | status }"
-		;;
+        *)
+                echo "Usage: rediss { start | stop | restart | status } [ sentinel | cluster ]"
+                ;;
 esac
+
