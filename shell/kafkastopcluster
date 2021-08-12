@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cat /develop/shell/nodes | while read line
+do
+{
+ echo $line
+ ssh $line "source /etc/profile;jps | grep Kafka | cut -d ' ' -f 1 | xargs kill -s 9"
+}&
+wait
+done
+
