@@ -2,6 +2,10 @@
 # automatically remote login, also, it can be automatically execute command remotely
 # 172.16.112.130 besh
 # 172.16.9.72 fesh
+# 172.16.27.7 node1
+# 172.16.27.8 node2
+# 172.16.27.9 node3
+# 172.16.27.36 halo
 
 case "$1" in
 	besh)
@@ -25,13 +29,16 @@ case "$1" in
         node3)
                 sshpass -f /home/witt/bak/shell/shpw3 ssh root@node3 $2
                 ;;
+        halo)
+                sshpass -f /home/witt/bak/shell/shpw_halo ssh witt@halo $2
+                ;;
         bd)
                 sshpass -f /home/witt/bak/shell/shpw3 ssh root@node1 $2
                 sshpass -f /home/witt/bak/shell/shpw3 ssh root@node2 $2
                 sshpass -f /home/witt/bak/shell/shpw3 ssh root@node3 $2
                 ;;
 	*)
-		echo "Usage: ssha {besh | besh2 | besh3 | fesh | node1 | node2 | node3 | bd} [\"command\"]"
+		echo "Usage: ssha {besh | besh2 | besh3 | fesh | node1 | node2 | node3 | halo | bd} [\"command\"]"
 		exit 1
 		;;
 esac
