@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# shutdown all the 
+# shutdown all the 3 nodes in the bd cluster 
 
 host1=$(cat /etc/hostname)
 host2=""

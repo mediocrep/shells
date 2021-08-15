@@ -40,7 +40,7 @@ case "$1" in
 
 		;;
         status)
-                ps aux | grep apusic
+                ps aux | grep apusic | grep -v com.ciic.sca.ScaJpaApplication
                 ;;
 	*)
 		echo "Usage: aas {start|stop|restart|status}"
