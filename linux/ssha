@@ -30,7 +30,7 @@ case "$1" in
                 sshpass -f /home/witt/bak/shell/shpw3 ssh root@node3 $2
                 ;;
         halo)
-                sshpass -f /home/witt/bak/shell/shpw_halo ssh witt@halo $2
+                sshpass -f /home/witt/bak/shell/shpw_halo ssh root@halo $2
                 ;;
         bd)
                 sshpass -f /home/witt/bak/shell/shpw3 ssh root@node1 $2
