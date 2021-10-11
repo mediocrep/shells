@@ -1,11 +1,26 @@
 #!/bin/bash
 
+#jar file path
+jarfile=$(find /home/thermoops/app/ | tail -1)
+
+# if [ -z "$jarfile" ]
+# then
+#       echo jarfile does NOT exist! will exit...
+#       exit 1
+# fi
+
 # PID=$(ps -ef | grep java | grep FSE-Service-Mobility-Web | awk '{ print $2 }')
-PID=$(ps -ef | grep java | grep FSE-Service-Mobility-Web | cut -d ' ' -f 3)
+PID=$(ps -ef | grep java | grep FSE-Service-Mobility-Web | cut -d ' ' -f 2)
+if [ -z "$PID" ]
+then
+  PID=$(ps -ef | grep java | grep FSE-Service-Mobility-Web | cut -d ' ' -f 3)
+fi
 
 case "$1" in
         start)
-                nohup java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -javaagent:/opt/rasp/plugin/imperva-agent-4.1.3.jar -Dimperva.config=/opt/rasp/config/rasp_config.json -Dimperva.raspjarpath=/opt/rasp/plugin/imperva-rasp-4.1.3.jar -Dimperva.disable_query -Dfile.encoding=utf-8 -jar /app/Web-2021-09-24.jar | tee nohup.out &
+        #       nohup java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -javaagent:/opt/rasp/plugin/imperva-agent-4.1.3.jar -Dimperva.config=/opt/rasp/config/rasp_config.json -Dimperva.raspjarpath=/opt/rasp/plugin/imperva-rasp-4.1.3.jar -Dimperva.disable_query -Dfile.encoding=utf-8 -jar /home/thermoops/app/FSE-Service-Mobility-Web-2021-09-24.jar | tee nohup.out &
+                nohup java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -javaagent:/opt/rasp/plugin/imperva-agent-4.1.3.jar -Dimperva.config=/opt/rasp/config/rasp_config.json -Dimperva.raspjarpath=/opt/rasp/plugin/imperva-rasp-4.1.3.jar -Dimperva.disable_query -Dfile.encoding=utf-8 -jar $jarfile &
+                echo fse-app-backend started successfully
                 ;;
         restart)
                 if [ -z "$PID" ]
@@ -13,10 +28,11 @@ case "$1" in
                         echo fse-app-backend is already stopped
                 else
                         echo fse-app-backend is running. It\'s pid is $PID
-                        # kill -9 $PID
+                        kill -9 $PID
+                        echo fse-app-backend stoped successfully
                 fi
 
-                nohup java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -javaagent:/opt/rasp/plugin/imperva-agent-4.1.3.jar -Dimperva.config=/opt/rasp/config/rasp_config.json -Dimperva.raspjarpath=/opt/rasp/plugin/imperva-rasp-4.1.3.jar -Dimperva.disable_query -Dfile.encoding=utf-8 -jar /app/Web-2021-09-24.jar | tee nohup.out &
+                nohup java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -javaagent:/opt/rasp/plugin/imperva-agent-4.1.3.jar -Dimperva.config=/opt/rasp/config/rasp_config.json -Dimperva.raspjarpath=/opt/rasp/plugin/imperva-rasp-4.1.3.jar -Dimperva.disable_query -Dfile.encoding=utf-8 -jar $jarfile &
                 echo fse-app-backend restarted successfully
                 ;;
         stop)
@@ -25,7 +41,7 @@ case "$1" in
                         echo fse-app-backend is already stopped
                 else
                         echo fse-app-backend is running. It\'s pid is $PID
-                        # kill -9 $PID
+                        kill -9 $PID
                         echo fse-app-backend stopped successfully
                 fi
                 ;;
@@ -46,4 +62,5 @@ case "$1" in
                 echo "Usage: . fsebe {start | stop | restart | status}"
                 ;;
 esac
+
 
