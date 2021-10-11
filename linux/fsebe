@@ -56,10 +56,10 @@ case "$1" in
         help)
                 echo "fsebe Version 1.0"
                 echo "This command is used for starting or stoping fse-app-backend system, or checking the system's status."
-                echo "Usage: . fsebe {start | stop | restart | status}"
+                echo "Usage: . fsebe {start | stop | restart | status | help}"
                 ;;
         *)
-                echo "Usage: . fsebe {start | stop | restart | status}"
+                echo "Usage: . fsebe {start | stop | restart | status | help}"
                 ;;
 esac
 
