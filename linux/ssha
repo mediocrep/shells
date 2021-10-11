@@ -32,6 +32,10 @@ case "$1" in
         halo)
                 sshpass -f /home/witt/bak/shell/shpw_halo ssh root@halo $2
                 ;;
+	work)
+                sshpass -f /home/witt/bak/shell/shpw_work ssh witt@work $2
+                ;;
+
         bd)
                 sshpass -f /home/witt/bak/shell/shpw3 ssh root@node1 $2
                 sshpass -f /home/witt/bak/shell/shpw3 ssh root@node2 $2
@@ -41,7 +45,7 @@ case "$1" in
                 ssh -i ~/bak/sshkey/thermoops-FSE-UAT-For-Guide thermoops@fse
 		;;
 	*)
-		echo "Usage: ssha {besh | besh2 | besh3 | fesh | node1 | node2 | node3 | halo | bd | fse} [\"command\"]"
+		echo "Usage: ssha {besh | besh2 | besh3 | fesh | node1 | node2 | node3 | halo | work | bd | fse} [\"command\"]"
 		exit 1
 		;;
 esac
