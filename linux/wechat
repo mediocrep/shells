@@ -17,7 +17,7 @@ case "$1" in
                 ;;
 	help)
                 echo "wechat Version 1.0"
-                echo "This command is used for starting or stoping fse-app-backend system, or checking the system's status."
+                echo "This command is used for starting or stoping wechat, or checking the wechat's status."
                 echo "Usage: wechat {start | stop | restart | status}"
                 ;;
         *)
