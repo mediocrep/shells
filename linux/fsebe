@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# PID=$(ps -ef | grep java | grep FSE-Service-Mobility-Web | awk '{ print $2 }')
+PID=$(ps -ef | grep java | grep FSE-Service-Mobility-Web | cut -d ' ' -f 3)
+
+case "$1" in
+        start)
+                nohup java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -javaagent:/opt/rasp/plugin/imperva-agent-4.1.3.jar -Dimperva.config=/opt/rasp/config/rasp_config.json -Dimperva.raspjarpath=/opt/rasp/plugin/imperva-rasp-4.1.3.jar -Dimperva.disable_query -Dfile.encoding=utf-8 -jar /app/Web-2021-09-24.jar | tee nohup.out &
+                ;;
+        restart)
+                if [ -z "$PID" ]
+                then
+                        echo fse-app-backend is already stopped
+                else
+                        echo fse-app-backend is running. It\'s pid is $PID
+                        # kill -9 $PID
+                fi
+
+                nohup java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -javaagent:/opt/rasp/plugin/imperva-agent-4.1.3.jar -Dimperva.config=/opt/rasp/config/rasp_config.json -Dimperva.raspjarpath=/opt/rasp/plugin/imperva-rasp-4.1.3.jar -Dimperva.disable_query -Dfile.encoding=utf-8 -jar /app/Web-2021-09-24.jar | tee nohup.out &
+                echo fse-app-backend restarted successfully
+                ;;
+        stop)
+                if [ -z "$PID" ]
+                then
+                        echo fse-app-backend is already stopped
+                else
+                        echo fse-app-backend is running. It\'s pid is $PID
+                        # kill -9 $PID
+                        echo fse-app-backend stopped successfully
+                fi
+                ;;
+        status)
+                if [ -z "$PID" ]
+                then
+                        echo fse-app-backend is already stopped
+                else
+                        echo fse-app-backend is running. It\'s pid is $PID
+                fi
+                ;;
+        help)
+                echo "fsebe Version 1.0"
+                echo "This command is used for starting or stoping fse-app-backend system, or checking the system's status."
+                echo "Usage: . fsebe {start | stop | restart | status}"
+                ;;
+        *)
+                echo "Usage: . fsebe {start | stop | restart | status}"
+                ;;
+esac
+
