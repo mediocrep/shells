@@ -16,7 +16,11 @@ case "$1" in
 	fesh)
 		sshpass -f /home/witt/bak/shell/shpw sftp root@fesh
 		;;
+	fse)
+		sftp -i ~/bak/sshkey/thermoops-FSE-UAT-For-Guide thermoops@fse
+		;;
 	*)
-		echo "Usage: sftpa {besh|besh2|besh3|fesh}"
+		echo "Usage: sftpa {besh | besh2 | besh3 | fesh | fse}"
+		exit 1
 		;;
 esac
