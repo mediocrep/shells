@@ -15,7 +15,12 @@ case "$1" in
         status)
                 sudo docker ps
                 ;;
-	*)
-		echo "Usage: wechat {start|stop|restart|status}"
-		;;
+	help)
+                echo "wechat Version 1.0"
+                echo "This command is used for starting or stoping fse-app-backend system, or checking the system's status."
+                echo "Usage: wechat {start | stop | restart | status}"
+                ;;
+        *)
+                echo "Usage: wechat {start | stop | restart | status}"
+                ;;
 esac
