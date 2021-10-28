@@ -35,6 +35,12 @@ case "$1" in
                 fi
                 vmplayer /develop/vm/xp/WinXP.vmx 1>/dev/null 2>&1 &
                 ;;
+        win7)
+                if [ ! "$line" ]; then
+                        systemctl start vmware
+                fi
+                vmplayer /develop/vm/win7/win7.vmx 1>/dev/null 2>&1 &
+                ;;
 	bd)
 		if [ ! "$line" ]; then
                         systemctl start vmware
@@ -54,7 +60,7 @@ case "$1" in
 		echo vm version: 1.0
 		;;
 	*)
-		echo parameter error! Usage: vm {node1 \| node2 \| node3 \| bd \| halo \| xp \| -v \| -h}
+		echo parameter error! Usage: vm {node1 \| node2 \| node3 \| bd \| halo \| xp \| win7 \| -v \| -h}
 		;;
 esac
 

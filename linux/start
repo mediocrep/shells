@@ -1,0 +1,55 @@
+#!/bin/bash
+# start apps
+
+case "$1" in
+	all)
+		nohup /develop/idea/bin/idea.sh >> /develop/idea/idea.log 2>&1 &
+		echo idea successfully started!
+		nohup /develop/webstorm/bin/webstorm.sh >> /develop/webstorm/webstorm.log 2>&1 &
+		echo webstorm successfully started!
+		systemctl start kingbase8d
+                nohup "/home/witt/kdb/Scripts/javatools.sh" "/home/witt/kdb/ManagerTools/manager" 1>/dev/null 2>&1 &
+		echo kingbase successfully started!
+		nohup /develop/postman/Postman >> /develop/postman/postman.log 2>&1 &
+		echo postman successfully started!
+		nohup /develop/AAS-V9.0/domains/sca/bin/startapusic > /develop/AAS-V9.0/domains/sca/logs/scafe`date +'%Y%m%d%H%M%S'`.log 2>&1 &
+		echo aas successfully started!
+		;;
+	idea)
+		nohup /develop/idea/bin/idea.sh >> /develop/idea/idea.log 2>&1 &
+		echo idea successfully started!
+                ;;
+        webstorm)
+		nohup /develop/webstorm/bin/webstorm.sh >> /develop/webstorm/webstorm.log 2>&1 &
+		echo webstorm successfully started!
+                ;;
+	kingbase)
+		systemctl start kingbase8d
+		nohup "/home/witt/kdb/Scripts/javatools.sh" "/home/witt/kdb/ManagerTools/manager" 1>/dev/null 2>&1 &
+		echo kingbase successfully started!
+		;;
+        postman)
+		nohup /develop/postman/Postman >> /develop/postman/postman.log 2>&1 &
+		echo postman successfully started!
+                ;;
+        aas)
+		nohup /develop/AAS-V9.0/domains/sca/bin/startapusic > /develop/AAS-V9.0/domains/sca/logs/scafe`date +'%Y%m%d%H%M%S'`.log 2>&1 &
+		echo aas successfully started!
+                ;;
+        redis)
+		redis-server /develop/redis-5.0.13/redis.conf
+		echo redis successfully started!
+                ;;
+	work)
+                ;;
+
+        bd)
+                ;;
+	fse)
+		;;
+	*)
+		echo "Usage: start {all | idea | webstorm | kingbase | postman | aas |  |  |  |  | }"
+		exit 1
+		;;
+esac
+
