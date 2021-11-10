@@ -1,0 +1,28 @@
+#!/bin/bash
+# start or stop tomcat
+case "$1" in 
+	start)
+		/develop/tomcat9/bin/startup.sh
+		echo tomcat started successfully!
+		;;
+	restart)
+		/develop/tomcat9/bin/shutdown.sh
+		/develop/tomcat9/bin/startup.sh
+		echo tomcat restarted successfully!
+                ;;
+	stop)
+		/develop/tomcat9/bin/shutdown.sh
+		echo tomcat stoped successfully!
+		;;
+        status)
+		ps aux | grep tomcat | grep -v grep | grep -v status
+                ;;
+	help)
+                echo "tomcat Version 1.0"
+                echo "This command is used for starting or stoping tomcat, or checking the tomcat's status."
+                echo "Usage: tomcat {start | stop | restart | status}"
+                ;;
+        *)
+                echo "Usage: tomcat {start | stop | restart | status}"
+                ;;
+esac

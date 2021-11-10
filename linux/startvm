@@ -51,7 +51,7 @@ case "$1" in
 		;;
 	-h)
 		echo version 1.0
-		echo Usage: vm {node1 \| node2 \| node3 \| bd \| halo \| xp}
+		echo Usage: vm {node1 \| node2 \| node3 \| bd \| halo \| xp \| win7}
 		echo Additional options:
 		echo "    -h"
 		echo "    -v"
