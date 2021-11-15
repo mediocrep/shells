@@ -1,0 +1,50 @@
+pipeline {
+  agent any
+  environment {
+    a = 'aaa'
+  }
+  stages {
+    stage('build') {
+      environment {
+        b = 'bbb'
+      }
+      steps {
+        sh '# mvn -B -DskipTests clean package'
+        echo "${b}"
+      }
+    }
+
+    stage('test') {
+      environment {
+        c = 'ccc'
+      }
+//      post {
+//        always {
+//          junit 'target/surefire-reports/*.xml'
+//        }
+//      }
+      steps {
+        sh '# mvn test'
+        echo '${a}'  // output: ${a}
+        echo '${env.a}'  // output: ${env.a}
+        echo "${a}"  // output: aaa
+        echo "${env.a}"  // output: aaa，小结：如果变量存在且作用域可以覆盖到此处，则 "${a}" 和 "${env.a}" 都能显示正常的值
+        echo "env.a's value is ${env.a}"  // output: env.a's value is aaa
+        echo '${b}'  // output: ${b}
+        echo '${env.b}'  // output: ${env.b}，小结：引用变量的话，不能用单引号，需要用双引号！
+//        echo "${b}"  // 报错：No such property: b for class: groovy.lang.Binding，原因：b的作用域在仅限于 stage('build')
+        echo "${env.b}"  // output: null，小结：如果变量不存在或作用域无法到此处，则 "${b}"报错，"${env.b}" 值显示为 null
+//        echo "env.b's value is ${env.b}"  //
+        echo "${c}"  // output: ccc
+        echo "env.c's value is ${c}"  // output: env.c's value is ccc
+        echo "env.c's value is ${env.c}"  // output: env.c's value is ccc
+      }
+    }
+
+    stage('deliver') {
+      steps {
+        sh '# ./jenkins/scripts/deliver.sh'
+      }
+    }
+  }
+}
