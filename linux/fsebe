@@ -10,6 +10,7 @@ jarfile=$(find /home/thermoops/app/ | tail -1)
 # fi
 
 # PID=$(ps -ef | grep java | grep FSE-Service-Mobility-Web | awk '{ print $2 }')
+# ps aux | grep com.intellij.idea.Main | grep -v grep | awk -F ' ' '{print $2}'
 PID=$(ps -ef | grep java | grep FSE-Service-Mobility-Web | cut -d ' ' -f 2)
 if [ -z "$PID" ]
 then
@@ -48,7 +49,7 @@ case "$1" in
         status)
                 if [ -z "$PID" ]
                 then
-                        echo fse-app-backend is already stopped
+                        echo fse-app-backend is stopped
                 else
                         echo fse-app-backend is running. It\'s pid is $PID
                 fi

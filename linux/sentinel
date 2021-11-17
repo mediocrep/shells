@@ -1,0 +1,51 @@
+#!/bin/bash
+### operate sentinel: start | stop | restart | status | help
+
+PID=$(ps aux | grep sentinel-dashboard-1.8.1.jar | grep -v grep | awk '{print $2}')
+
+case "$1" in
+        start)
+		nohup java -jar -Dserver.port=8849 -Dsentinel.dashboard.auth.username=sentinel -Dsentinel.dashboard.auth.password=sentinel -Dserver.servlet.session.timeout=72000m /develop/sentinel/sentinel-dashboard-1.8.1.jar > /develop/sentinel/nohup.out 2>&1 &
+                echo sentinel started successfully
+                ;;
+        restart)
+                if [ -z "$PID" ]
+                then
+                        echo sentinel is already stopped
+                else
+                        echo sentinel is running. It\'s pid is $PID
+                        kill -9 $PID
+                        echo sentinel stoped successfully
+                fi
+
+		nohup java -jar -Dserver.port=8849 -Dsentinel.dashboard.auth.username=sentinel -Dsentinel.dashboard.auth.password=sentinel -Dserver.servlet.session.timeout=72000m /develop/sentinel/sentinel-dashboard-1.8.1.jar > /develop/sentinel/nohup.out 2>&1 &
+                echo sentinel restarted successfully
+                ;;
+        stop)
+                if [ -z "$PID" ]
+                then
+                        echo sentinel is already stopped
+                else
+                        echo sentinel is running. It\'s pid is $PID
+                        kill -9 $PID
+                        echo sentinel stopped successfully
+                fi
+                ;;
+        status)
+                if [ -z "$PID" ]
+                then
+                        echo sentinel is stopped
+                else
+                        echo sentinel is running. It\'s pid is $PID
+                fi
+                ;;
+        help)
+                echo "sentinel Version 1.0"
+                echo "This command is used for starting or stoping sentinel system, or checking the system's status."
+                echo "Usage: . sentinel {start | stop | restart | status | help}"
+                ;;
+        *)
+                echo "Usage: . sentinel {start | stop | restart | status | help}"
+                ;;
+esac
+
