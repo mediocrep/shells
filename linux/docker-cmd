@@ -1,0 +1,5 @@
+# 根据镜像创建并/或运行一个容器
+docker run -it -d --net jenkins --ip 172.18.0.8 -p 8858:8858 --name sentinel bladex/sentinel-dashboard:latest
+# 登录docker容器的控制台
+docker exec -it {sentinel | wechat} bash
+

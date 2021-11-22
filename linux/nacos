@@ -1,0 +1,56 @@
+#!/bin/bash
+### operate nacos: start | stop | restart | status | help
+
+# PID=$(ps aux | grep nacos | grep -v grep | awk '{print $2}')
+PID=$(ps ax | grep -i nacos.nacos | grep -v grep | awk '{print $1}')
+
+case "$1" in
+        start)
+		/develop/nacos/bin/startup.sh -m standalone
+                echo nacos started successfully
+                ;;
+        restart)
+                if [ -z "$PID" ]
+                then
+                        echo nacos is already stopped
+                else
+                        echo nacos is running. It\'s pid is $PID
+                        # kill -9 $PID
+			/develop/nacos/bin/shutdown.sh
+			sleep 10
+                        echo nacos stoped successfully
+                fi
+
+		/develop/nacos/bin/startup.sh -m standalone
+                echo nacos restarted successfully
+                ;;
+        stop)
+                if [ -z "$PID" ]
+                then
+                        echo nacos is already stopped
+                else
+                        echo nacos is running. It\'s pid is $PID
+                        # kill -9 $PID
+			/develop/nacos/bin/shutdown.sh
+			sleep 10
+                        echo nacos stopped successfully
+                fi
+                ;;
+        status)
+                if [ -z "$PID" ]
+                then
+                        echo nacos is stopped
+                else
+                        echo nacos is running. It\'s pid is $PID
+                fi
+                ;;
+        help)
+                echo "nacos Version 1.0"
+                echo "This command is used for starting or stoping nacos system, or checking the system's status."
+                echo "Usage: . nacos {start | stop | restart | status | help}"
+                ;;
+        *)
+                echo "Usage: . nacos {start | stop | restart | status | help}"
+                ;;
+esac
+
