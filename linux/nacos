@@ -17,7 +17,7 @@ case "$1" in
                         echo nacos is running. It\'s pid is $PID
                         # kill -9 $PID
 			/develop/nacos/bin/shutdown.sh
-			sleep 10
+			sleep 12
                         echo nacos stoped successfully
                 fi
 
@@ -32,7 +32,7 @@ case "$1" in
                         echo nacos is running. It\'s pid is $PID
                         # kill -9 $PID
 			/develop/nacos/bin/shutdown.sh
-			sleep 10
+			sleep 12
                         echo nacos stopped successfully
                 fi
                 ;;
