@@ -1,0 +1,51 @@
+#!/bin/bash
+### operate seata: start | stop | restart | status | help
+
+PID=$(ps ax | grep io.seata.server.Server | grep -v grep | awk '{print $1}')
+
+case "$1" in
+        start)
+		nohup  /develop/seata/bin/seata-server.sh -p 8091 -h 0.0.0.0 -m db  >/develop/seata/log.out 2>&1 &
+                echo seata started successfully
+                ;;
+        restart)
+                if [ -z "$PID" ]
+                then
+                        echo seata is already stopped
+                else
+                        echo seata is running. It\'s pid is $PID
+                        kill -9 $PID
+                        echo seata stoped successfully
+                fi
+
+		nohup  /develop/seata/bin/seata-server.sh -p 8091 -h 0.0.0.0 -m db  >/develop/seata/log.out 2>&1 &
+                echo seata restarted successfully
+                ;;
+        stop)
+                if [ -z "$PID" ]
+                then
+                        echo seata is already stopped
+                else
+                        echo seata is running. It\'s pid is $PID
+                        kill -9 $PID
+                        echo seata stopped successfully
+                fi
+                ;;
+        status)
+                if [ -z "$PID" ]
+                then
+                        echo seata is stopped
+                else
+                        echo seata is running. It\'s pid is $PID
+                fi
+                ;;
+        help)
+                echo "seata Version 1.0.0"
+                echo "This command is used for starting or stoping seata system, or checking the system's status."
+                echo "Usage: . seata {start | stop | restart | status | help}"
+                ;;
+        *)
+                echo "Usage: . seata {start | stop | restart | status | help}"
+                ;;
+esac
+
