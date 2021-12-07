@@ -1,0 +1,32 @@
+# this Dockerfile is to build a docker image to run microservice gateway
+# command to run the container:
+# docker run -itd --name=gateway -p 8090:8080 -v /develop/dockerfile/logs/gateway/:/root/gateway/ centos:1.0.0
+
+FROM centos
+
+# ENV command. we can use both whitespace and equal sign
+ENV JAVA_HOME /develop/jdk1.8.0_291 
+ENV PATH $JAVA_HOME/bin:$PATH
+
+ADD jdk-8u291-linux-x64.tar.gz /develop
+
+COPY gateway-0.0.1-SNAPSHOT.jar /develop
+ 
+# RUN tar -zxvf /app/jdk-8u291-linux-x64.tar.gz -C /develop \  # error occurs: tar (child): /app/jdk-8u291-linux-x64.tar.gz: Cannot open: Not a directory
+# RUN  echo -e 'export PATH=$JAVA_HOME/bin:$PATH' >> /etc/profile \
+#   && source /etc/profile 
+
+# CMD nohup $JAVA_HOME/bin/java -jar /develop/gateway-0.0.1-SNAPSHOT.jar 2>&1 &  # error occurs
+CMD java -jar /develop/gateway-0.0.1-SNAPSHOT.jar
+##    && tail -200f nohup.out
+
+# define the anonymous volume. 在启动容器时忘记挂载数据卷，会自动挂载到匿名卷；在启动容器 docker run 的时候，我们可以通过 -v 参数修改挂载点。
+# 匿名卷默认路径：/var/lib/docker/volumes/100336405af9040827d83e681fc0ae9770d3098b88bbee8fc27cf2110470147e/_data
+VOLUME /root/gateway/
+
+# 仅仅只是声明端口。作用：1 帮助镜像使用者理解这个镜像服务的守护端口，以方便配置映射；2 在运行时使用随机端口映射时，也就是 docker run -P 时，会自动随机映射 EXPOSE 的端口
+# 不过docker run启动容器后，发现并没有映射到外网端口
+EXPOSE 8080
+
+LABEL author=张伟
+
