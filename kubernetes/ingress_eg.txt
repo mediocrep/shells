@@ -1,0 +1,130 @@
+
+-------- nacos-ingress
+
+{
+  "kind": "Ingress",
+  "apiVersion": "extensions/v1beta1",
+  "metadata": {
+    "name": "nacos-ingress",
+    "namespace": "java-eg",
+    "selfLink": "/apis/extensions/v1beta1/namespaces/java-eg/ingresses/nacos-ingress",
+    "uid": "6182186b-58d1-11ec-a206-0050569a1c8d",
+    "resourceVersion": "244088511",
+    "generation": 1,
+    "creationTimestamp": "2021-12-09T09:21:24Z",
+    "annotations": {
+      "kubernetes.io/ingress.class": "nginx",
+      "nginx.ingress.kubernetes.io/proxy-body-size": "50m",
+      "nginx.ingress.kubernetes.io/rewrite-target": "/"
+    }
+  },
+  "spec": {
+    "rules": [
+      {
+        "host": "eg-nacos.k8sdev.ciicsh.com",
+        "http": {
+          "paths": [
+            {
+              "path": "/",
+              "backend": {
+                "serviceName": "eg-nacos",
+                "servicePort": 80
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "status": {
+    "loadBalancer": {}
+  }
+}
+
+-------- sentinel-ingress
+
+{
+  "kind": "Ingress",
+  "apiVersion": "extensions/v1beta1",
+  "metadata": {
+    "name": "sentinel-ingress",
+    "namespace": "java-eg",
+    "selfLink": "/apis/extensions/v1beta1/namespaces/java-eg/ingresses/sentinel-ingress",
+    "uid": "90ad96d6-58df-11ec-a206-0050569a1c8d",
+    "resourceVersion": "244105062",
+    "generation": 1,
+    "creationTimestamp": "2021-12-09T11:02:56Z",
+    "annotations": {
+      "kubernetes.io/ingress.class": "nginx",
+      "nginx.ingress.kubernetes.io/proxy-body-size": "50m",
+      "nginx.ingress.kubernetes.io/rewrite-target": "/"
+    }
+  },
+  "spec": {
+    "rules": [
+      {
+        "host": "eg-sentinel.k8sdev.ciicsh.com",
+        "http": {
+          "paths": [
+            {
+              "path": "/",
+              "backend": {
+                "serviceName": "eg-sentinel",
+                "servicePort": 80
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "status": {
+    "loadBalancer": {}
+  }
+}
+
+
+-------- seata-ingress
+
+{
+  "kind": "Ingress",
+  "apiVersion": "extensions/v1beta1",
+  "metadata": {
+    "name": "seata-ingress",
+    "namespace": "java-eg",
+    "selfLink": "/apis/extensions/v1beta1/namespaces/java-eg/ingresses/seata-ingress",
+    "uid": "7296d6ad-5970-11ec-a206-0050569a1c8d",
+    "resourceVersion": "244273073",
+    "generation": 1,
+    "creationTimestamp": "2021-12-10T04:20:03Z",
+    "annotations": {
+      "kubernetes.io/ingress.class": "nginx",
+      "nginx.ingress.kubernetes.io/proxy-body-size": "50m",
+      "nginx.ingress.kubernetes.io/rewrite-target": "/"
+    }
+  },
+  "spec": {
+    "rules": [
+      {
+        "host": "eg-seata.k8sdev.ciicsh.com",
+        "http": {
+          "paths": [
+            {
+              "path": "/",
+              "backend": {
+                "serviceName": "eg-seata",
+                "servicePort": 80
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "status": {
+    "loadBalancer": {}
+  }
+}
+
+
+

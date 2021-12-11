@@ -1,0 +1,160 @@
+------ eg-seata
+
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "eg-seata",
+    "namespace": "java-eg",
+    "selfLink": "/api/v1/namespaces/java-eg/services/eg-seata",
+    "uid": "f2664fac-5964-11ec-a206-0050569a1c8d",
+    "resourceVersion": "244273110",
+    "creationTimestamp": "2021-12-10T02:57:44Z",
+    "labels": {
+      "k8s-app": "eg-seata"
+    }
+  },
+  "spec": {
+    "ports": [
+      {
+        "name": "tcp-8883-8091-4ccmz",
+        "protocol": "TCP",
+        "port": 8091,
+        "targetPort": 8091,
+        "nodePort": 31809
+      }
+    ],
+    "selector": {
+      "k8s-app": "eg-seata"
+    },
+    "clusterIP": "10.17.51.151",
+    "type": "LoadBalancer",
+    "sessionAffinity": "None",
+    "externalTrafficPolicy": "Cluster"
+  },
+  "status": {
+    "loadBalancer": {}
+  }
+}
+
+
+------ eg-gateway
+
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "eg-gateway",
+    "namespace": "java-eg",
+    "selfLink": "/api/v1/namespaces/java-eg/services/eg-gateway",
+    "uid": "262b0a47-58ed-11ec-a206-0050569a1c8d",
+    "resourceVersion": "244120963",
+    "creationTimestamp": "2021-12-09T12:40:11Z",
+    "labels": {
+      "k8s-app": "eg-gateway"
+    }
+  },
+  "spec": {
+    "ports": [
+      {
+        "name": "tcp-8881-8080-s6dvx",
+        "protocol": "TCP",
+        "port": 8080,
+        "targetPort": 8080,
+        "nodePort": 31543
+      }
+    ],
+    "selector": {
+      "k8s-app": "eg-gateway"
+    },
+    "clusterIP": "10.15.119.208",
+    "type": "LoadBalancer",
+    "sessionAffinity": "None",
+    "externalTrafficPolicy": "Cluster"
+  },
+  "status": {
+    "loadBalancer": {}
+  }
+}
+
+
+------ eg-sentinel
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "eg-sentinel",
+    "namespace": "java-eg",
+    "selfLink": "/api/v1/namespaces/java-eg/services/eg-sentinel",
+    "uid": "058473d2-58e3-11ec-a206-0050569a1c8d",
+    "resourceVersion": "244114183",
+    "creationTimestamp": "2021-12-09T11:27:41Z",
+    "labels": {
+      "k8s-app": "eg-sentinel"
+    }
+  },
+  "spec": {
+    "ports": [
+      {
+        "name": "tcp-80-8849-5hgjs",
+        "protocol": "TCP",
+        "port": 8849,
+        "targetPort": 8849,
+        "nodePort": 30769
+      }
+    ],
+    "selector": {
+      "k8s-app": "eg-sentinel"
+    },
+    "clusterIP": "10.16.178.32",
+    "type": "LoadBalancer",
+    "sessionAffinity": "None",
+    "externalTrafficPolicy": "Cluster"
+  },
+  "status": {
+    "loadBalancer": {}
+  }
+}
+
+
+------ eg-nacos
+
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "eg-nacos",
+    "namespace": "java-eg",
+    "selfLink": "/api/v1/namespaces/java-eg/services/eg-nacos",
+    "uid": "5a76d3f9-58e2-11ec-a206-0051269a1c8d",
+    "resourceVersion": "244108406",
+    "creationTimestamp": "2021-12-09T11:22:55Z",
+    "labels": {
+      "k8s-app": "eg-nacos"
+    }
+  },
+  "spec": {
+    "ports": [
+      {
+        "name": "tcp-80-8848-zm7nh",
+        "protocol": "TCP",
+        "port": 8848,
+        "targetPort": 8848,
+        "nodePort": 30761
+      }
+    ],
+    "selector": {
+      "k8s-app": "eg-nacos"
+    },
+    "clusterIP": "10.17.87.173",
+    "type": "LoadBalancer",
+    "sessionAffinity": "None",
+    "externalTrafficPolicy": "Cluster"
+  },
+  "status": {
+    "loadBalancer": {}
+  }
+}
+
+
+
