@@ -1,0 +1,29 @@
+# this Dockerfile is to build a docker image to run microservice nacos
+# command to run the container:
+# docker run -itd --name=nacos -p 8880:8848 -v /develop/dockerfile/logs/nacos/:/develop/nacos/logs/ -v /develop/dockerfile/conf/nacos/:/develop/nacos/conf/ nacos2.0.3:1.0.0
+
+FROM centos
+
+# ENV command. we can use both whitespace and equal sign
+ENV JAVA_HOME /develop/jdk1.8.0_291
+ENV NACOS_HOME /develop/nacos
+ENV PATH $JAVA_HOME/bin:$NACOS_HOME/bin:$PATH
+
+ADD jdk-8u291-linux-x64.tar.gz /develop
+ADD nacos-server-2.0.3.tar.gz /develop
+
+# CMD "startup.sh -m standalone"
+# CMD ["startup.sh", "-m", "standalone"]
+# ENTRYPOINT ["startup.sh", "-m"]
+# CMD ["standalone"]
+COPY application.properties $NACOS_HOME/conf
+CMD cd $NACOS_HOME/bin/ && ./startup.sh -m standalone && tail -f $NACOS_HOME/logs/start.out
+
+# define the anonymous volume. 在启动容器时忘记挂载数据卷，会自动挂载到匿名卷；在启动容器 docker run 的时候，我们可以通过 -v 参数修改挂载点。
+# 匿名卷默认路径：/var/lib/docker/volumes/100336405af9040827d83e681fc0ae9770d3098b88bbee8fc27cf2110470147e/_data
+VOLUME $NACOS_HOME/logs/
+
+EXPOSE 8848
+
+LABEL author=张伟
+

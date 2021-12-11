@@ -1,0 +1,28 @@
+# this Dockerfile is to build a docker image to run seata
+# command to run the container:
+# docker run -itd --name=seata -p 8883:8091 -v /develop/dockerfile/logs/seata/:/develop/seata/logs seata1.3.0:1.0.0
+
+FROM centos
+
+# ENV command. we can use both whitespace and equal sign
+ENV JAVA_HOME /develop/jdk1.8.0_291
+ENV SEATA_HOME /develop/seata
+ENV PATH $JAVA_HOME/bin:$SEATA_HOME/bin:$PATH
+
+ADD jdk-8u291-linux-x64.tar.gz /develop
+ADD seata-server-1.3.0.tar.gz /develop
+COPY registry.conf $SEATA_HOME/conf/
+COPY mysql-connector-java-5.1.35.jar mysql-connector-java-8.0.19.jar $SEATA_HOME/lib/
+COPY agent/ $SEATA_HOME/agent/
+COPY seata-server.sh $SEATA_HOME/bin/
+
+# CMD mkdir -p $SEATA_HOME/logs/
+CMD $SEATA_HOME/bin/seata-server.sh -p 8091 -h 0.0.0.0 -m file  > $SEATA_HOME/logs/seata.out 2>&1
+
+# define the anonymous volume. 在启动容器时忘记挂载数据卷，会自动挂载到匿名卷；在启动容器 docker run 的时候，我们可以通过 -v 参数修改挂载点。
+VOLUME $SEATA_HOME/logs/
+
+EXPOSE 8091
+
+LABEL author=张伟
+

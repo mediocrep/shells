@@ -1,0 +1,25 @@
+# this Dockerfile is to build a docker image to run sentinel
+# command to run the container:
+# docker run -itd --name=sentinel -p 8882:8849 -v /develop/dockerfile/logs/sentinel/:/develop/sentinel/logs sentinel1.8.1:1.0.0
+
+FROM centos
+
+# ENV command. we can use both whitespace and equal sign
+ENV JAVA_HOME /develop/jdk1.8.0_291
+ENV SENTINEL_HOME /develop/sentinel
+ENV PATH $JAVA_HOME/bin:$PATH
+
+ADD jdk-8u291-linux-x64.tar.gz /develop
+# COPY sentinel-dashboard-1.8.1.jar $SENTINEL_HOME  # error occurs here, because copy consider $SENTINEL_HOME as a file name, instead of a dicectory
+COPY sentinel-dashboard-1.8.1.jar $SENTINEL_HOME/
+
+CMD mkdir -p $SENTINEL_HOME/logs/
+CMD java -jar -Dserver.port=8849 -Dsentinel.dashboard.auth.username=sentinel -Dsentinel.dashboard.auth.password=sentinel -Dserver.servlet.session.timeout=720000m $SENTINEL_HOME/sentinel-dashboard-1.8.1.jar > $SENTINEL_HOME/logs/sentinel.out 2>&1
+
+# define the anonymous volume. 在启动容器时忘记挂载数据卷，会自动挂载到匿名卷；在启动容器 docker run 的时候，我们可以通过 -v 参数修改挂载点。
+VOLUME $SENTINEL_HOME/logs/
+
+EXPOSE 8849
+
+LABEL author=张伟
+

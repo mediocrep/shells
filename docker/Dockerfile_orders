@@ -1,16 +1,17 @@
 # this Dockerfile is to build a docker image to run gateway
 # command to run the container:
-# docker run -itd --name=gateway -p 8881:8080 -v /develop/dockerfile/logs/gateway/:/root/gateway/ gateway3.0.4:1.0.0
+# docker run -itd --name=orders -p 8884:8884 -v /develop/dockerfile/logs/orders/:/develop/orders/logs/orders/ orders:1.0.0
 
 FROM centos
 
 # ENV command. we can use both whitespace and equal sign
 ENV JAVA_HOME /develop/jdk1.8.0_291
-ENV GATEWAY_HOME /develop/gateway
-ENV PATH $JAVA_HOME/bin:$GATEWAY_HOME:$PATH
+ENV ORDERS_HOME /develop/orders
+ENV PATH $JAVA_HOME/bin:$ORDERS_HOME:$PATH
+ENV order /develop/orders/logs
 
-COPY agent/ /develop/gateway/agent/
-COPY gateway-0.0.1-SNAPSHOT.jar $GATEWAY_HOME/
+COPY agent/ $ORDERS_HOME/agent/
+COPY orders-1.0.0.jar $ORDERS_HOME/
 ADD jdk-8u291-linux-x64.tar.gz /develop/
 
 # RUN tar -zxvf /app/jdk-8u291-linux-x64.tar.gz -C /develop \  # error occurs: tar (child): /app/jdk-8u291-linux-x64.tar.gz: Cannot open: Not a directory
@@ -26,18 +27,17 @@ ADD jdk-8u291-linux-x64.tar.gz /develop/
 # CMD java -javaagent:$GATEWAY_HOME/agent/skywalking-agent.jar -Dskywalking.agent.service_name=java_demo::gateway -Dskywalking.collector.backend_service=skywalking-svc.skywalking -Dskywalking.trace.ignore_path=Seata/RM/* -jar $GATEWAY_HOME/gateway-0.0.1-SNAPSHOT.jar
 
 # external
-CMD java -javaagent:$GATEWAY_HOME/agent/skywalking-agent.jar -Dskywalking.agent.service_name=java_demo::gateway2 -Dskywalking.collector.backend_service=172.16.112.40:32346 -Dskywalking.trace.ignore_path=Seata/RM/* -jar $GATEWAY_HOME/gateway-0.0.1-SNAPSHOT.jar
-
+CMD java -javaagent:$ORDERS_HOME/agent/skywalking-agent.jar -Dskywalking.agent.service_name=java_demo::orders -Dskywalking.collector.backend_service=172.16.112.40:32346 -Dskywalking.trace.ignore_path=Seata/RM/* -jar $ORDERS_HOME/orders-1.0.0.jar
 
 # CMD java -javaagent:agent/skywalking-agent.jar -Dskywalking.agent.service_name=java_demo::gateway -Dskywalking.collector.backend_service=skywalking-svc.skywalking -Dskywalking.trace.ignore_path=Seata/RM/* -jar gateway-0.0.1-SNAPSHOT.jar
 
 # define the anonymous volume. 在启动容器时忘记挂载数据卷，会自动挂载到匿名卷；在启动容器 docker run 的时候，我们可以通过 -v 参数修改挂载点。
 # 匿名卷默认路径：/var/lib/docker/volumes/100336405af9040827d83e681fc0ae9770d3098b88bbee8fc27cf2110470147e/_data
-VOLUME /root/gateway/
+VOLUME /develop/orders/logs
 
 # 仅仅只是声明端口。作用：1 帮助镜像使用者理解这个镜像服务的守护端口，以方便配置映射；2 在运行时使用随机端口映射时，也就是 docker run -P 时，会自动随机映射 EXPOSE 的端口
 # 不过docker run启动容器后，发现并没有映射到外网端口
-EXPOSE 8080
+EXPOSE 8884
 
 LABEL author=张伟
 
